@@ -926,6 +926,32 @@ ul {
   .trust-item { padding-left: 14px; }
 }
 
+/* ---------- Hide hero logo card on mobile ---------- */
+@media (max-width: 600px) {
+  .hero-visual {
+    display: none;
+  }
+
+  /* Center the hero text nicely since the logo is gone */
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .hero-copy {
+    text-align: center;
+    margin-inline: auto;
+  }
+
+  .hero-description {
+    margin-inline: auto;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+}
+
 /* Responsive: mobile */
 @media (max-width: 600px) {
   .container { width: calc(100% - 32px); }

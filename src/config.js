@@ -1,8 +1,8 @@
 // src/config.js
 export const COMPANY = {
   name: 'Mehtha Software Solutions',
-  email: 'mehthacreativecollections@gmail.com',
-  phoneDigits: '919108829680',            
-  phoneDisplay: '+91 91088 29680',
+  email: 'softwaresolutions@mehtha.com',
+  phoneDigits: '916362444346',            
+  phoneDisplay: '+91 63624 44346',
   location: 'Hassan, Karnataka, India',
 };

@@ -6,5 +6,5 @@ export const COMPANY = {
   phoneDisplay: '+91 63624 44346',
   location: 'Hassan, Karnataka, India',
 
-   applicationEndpoint: 'https://script.google.com/macros/s/AKfycbyBabSLa5IZmoWNIvL6WUtk9x9PEZnvYBr7e1suT80egwMmKDbzn7XC8f-pVmF-fGr_/exec',
+   applicationEndpoint: 'https://script.google.com/macros/s/AKfycbxx-CVm1WWNnAP75xCSZgoqHNAwYbqaUEsxyiD4xTXXfRnqtc5NfG-zhAJxcPYzg74qsg/exec',
 };

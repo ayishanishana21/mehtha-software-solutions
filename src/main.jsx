@@ -1,7 +1,7 @@
 // src/main.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import { QRCodeSVG } from 'qrcode.react';
+
 import {
   ArrowRight, Code2, Layers, Database, BarChart3, TestTube2, GitBranch,
   Mail, MapPin, Menu, MessageCircle, Check, Sparkles, X,
@@ -24,7 +24,15 @@ const programs = [
 
 function App() {
   const [menuOpen, setMenuOpen] = React.useState(false);
+const [isApplicationOpen, setIsApplicationOpen] = useState(false);
 
+// Automatically open the application popup when the website loads
+useEffect(() => {
+  setIsApplicationOpen(true);
+}, []);
+
+const openApplication = () => setIsApplicationOpen(true);
+const closeApplication = () => setIsApplicationOpen(false);
   const emailHref    = `mailto:${COMPANY.email}`;
   const phoneHref    = COMPANY.phoneDigits ? `tel:+${COMPANY.phoneDigits}` : '#contact';
   const whatsappHref = COMPANY.phoneDigits
@@ -33,11 +41,11 @@ function App() {
       )}`
     : '#contact';
 
-  const qrValue = COMPANY.phoneDigits
-    ? `https://wa.me/${COMPANY.phoneDigits}?text=${encodeURIComponent(
-        "Hi! I'd like to apply for an internship at Mehtha Software Solutions."
-      )}`
-    : '';
+  // const qrValue = COMPANY.phoneDigits
+  //   ? `https://wa.me/${COMPANY.phoneDigits}?text=${encodeURIComponent(
+  //       "Hi! I'd like to apply for an internship at Mehtha Software Solutions."
+  //     )}`
+  //   : '';
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -57,16 +65,36 @@ function App() {
           <nav className={menuOpen ? 'nav-links open' : 'nav-links'}>
             <a href="#about"       onClick={closeMenu}>About</a>
             <a href="#internships" onClick={closeMenu}>Internships</a>
-            <a href="#apply"       onClick={closeMenu}>Apply</a>
+           <a
+  href="#apply"
+  onClick={(e) => {
+    e.preventDefault();
+    closeMenu();
+    openApplication();
+  }}
+>
+  Apply
+</a>
             <a href="#contact"     onClick={closeMenu}>Contact</a>
-            <a className="btn btn-primary nav-apply-mobile" href="#apply" onClick={closeMenu}>
-              Apply Now
-            </a>
+    <button
+  type="button"
+  onClick={() => {
+    closeMenu();
+    openApplication();
+  }}
+  className="btn btn-primary nav-apply-mobile"
+>
+  Apply Now <ArrowRight size={18} />
+</button>
           </nav>
 
-          <a className="btn btn-primary nav-apply" href="#apply">
-            Apply Now <ArrowRight size={16} />
-          </a>
+      <button
+  type="button"
+  onClick={openApplication}
+  className="btn btn-primary nav-apply"
+>
+  Apply Now <ArrowRight size={18} />
+</button>
 
           <button
             className="menu-toggle"
@@ -102,9 +130,13 @@ function App() {
                   <strong>ISO-certified completion certificate</strong>.
                 </p>
                 <div className="hero-actions">
-                  <a className="btn btn-primary" href="#apply">
-                    Explore Internships <ArrowRight size={17} />
-                  </a>
+                  <button
+  type="button"
+  className="btn btn-primary"
+  onClick={openApplication}
+>
+  Apply Now <ArrowRight size={17} />
+</button>
                   <a className="btn btn-light" href="#about">Learn More</a>
                 </div>
               </div>
@@ -160,9 +192,14 @@ function App() {
                   <div className="card-icon"><Icon size={24} /></div>
                   <h3 className="card-title">{title}</h3>
                   <p className="card-description">{desc}</p>
-                  <a className="card-link" href="#apply">
-                    Learn more <ArrowRight size={15} />
-                  </a>
+    <button
+  type="button"
+  className="program-apply-btn"
+  onClick={openApplication}
+>
+  Apply Now
+  <ArrowRight size={16} />
+</button>
                 </article>
               ))}
             </div>
@@ -213,44 +250,7 @@ function App() {
           </div>
         </section>
 
-        {/* ================= APPLY (form + QR) ================= */}
-        <section className="section application-section" id="apply">
-          <div className="container">
-            <div className="section-header">
-              <span className="section-label">Take the Next Step</span>
-              <h2 className="section-title">Ready to start your internship journey?</h2>
-              <p className="section-description">
-                Fill in the form below and we'll receive your application directly on WhatsApp.
-                On successful completion, you'll receive an{' '}
-                <strong>ISO-certified certificate</strong>.
-              </p>
-            </div>
 
-            <div className="application-content">
-              <div className="application-panel">
-                <h3 className="application-title">Apply for an Internship</h3>
-                <p className="application-description">
-                  Your details go straight to our WhatsApp — no sign-up required.
-                </p>
-                <ApplicationForm />
-              </div>
-
-              <div className="application-panel">
-                <div className="qr-wrapper">
-                  {qrValue ? (
-                    <QRCodeSVG value={qrValue} size={180} level="H" className="qr-code" />
-                  ) : (
-                    <Code2 size={42} />
-                  )}
-                </div>
-                <h3 className="application-title">Scan to Chat</h3>
-                <p className="application-description">
-                  Open your phone camera and scan the code to start a WhatsApp conversation with us.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* ================= CONTACT ================= */}
         <section className="section contact-section" id="contact">
@@ -283,13 +283,7 @@ function App() {
               </div>
             </div>
 
-            {COMPANY.phoneDigits && (
-              <div className="text-center mt-3">
-                <a className="btn btn-primary" href={whatsappHref} target="_blank" rel="noreferrer">
-                  Message us on WhatsApp <ArrowRight size={16} />
-                </a>
-              </div>
-            )}
+         
           </div>
         </section>
       </main>
@@ -320,7 +314,15 @@ function App() {
               <div className="footer-links">
                 <a href="#about">About</a>
                 <a href="#internships">Internships</a>
-                <a href="#apply">Apply</a>
+               <a
+  href="#apply"
+  onClick={(e) => {
+    e.preventDefault();
+    openApplication();
+  }}
+>
+  Apply Now
+</a>
                 <a href="#contact">Contact</a>
               </div>
             </div>
@@ -330,7 +332,7 @@ function App() {
               <div className="footer-links">
                 <a href={emailHref}>{COMPANY.email}</a>
                 <a href={phoneHref}>{COMPANY.phoneDisplay}</a>
-                <a href={whatsappHref} target="_blank" rel="noreferrer">WhatsApp</a>
+                
               </div>
             </div>
           </div>
@@ -340,6 +342,38 @@ function App() {
           </div>
         </div>
       </footer>
+      {isApplicationOpen && (
+  <div
+    className="application-modal-overlay"
+    onClick={closeApplication}
+  >
+    <div
+      className="application-modal"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button
+        type="button"
+        className="application-modal-close"
+        onClick={closeApplication}
+        aria-label="Close application form"
+      >
+        <X size={22} />
+      </button>
+
+      <div className="application-modal-heading">
+        <span className="section-label">Start Your Journey</span>
+        <h2>Apply for an Internship</h2>
+        <p>
+          Complete the registration form to begin your internship journey
+          with Mehtha Software Solutions.
+        </p>
+      </div>
+
+      <ApplicationForm onSuccess={closeApplication} />
+    </div>
+  </div>
+)}
+
 
       <FloatingWhatsApp />
     </>
